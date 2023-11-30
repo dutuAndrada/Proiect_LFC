@@ -139,17 +139,41 @@ class Grammar:
         print("Start: ", self.S)
 
 class FiniteAutomaton:
-    def __init__(self, Q: list, E: list, q0: str, F: list, delta: list):
-        self.Q: list = Q
-        self.E: list = E
+    def __init__(self, Q: list[str], E: list[str], q0: str, F: list[str], delta: list[tuple[str]]):
+        self.Q: list[str] = Q
+        self.E: list[str] = E
         self.q0: str = q0
-        self.F: list = F
-        self.delta: list = delta
+        self.F: list[str] = F
+        self.delta: list[tuple[str]] = delta
 
   #  def citire(self):
 
+    def verifyAutomaton(self):
+        if self.q0 not in self.Q:
+            return False
+        for state in self.F:
+            if state not in self.Q:
+                return False
+        for transition in self.delta:
+            if transition[0] not in self.Q:
+                return False
+            if transition[1] not in self.E:
+                return False
+            if len(transition) > 2:
+                for finalState in range (2, len(transition)):
+                    if transition[finalState] not in self.Q:
+                        return False
+        return True
+    
+    def printAutomaton(self):
+        print(self.Q)
+        print(self.E)
+        print(self.q0)
+        print(self.F)
+        print(self.delta)
 
 def main():
+    '''
     grammar = Grammar([], [], [])
     grammar.citire_fisier('gram.txt')
     print(grammar.verificare())
@@ -158,6 +182,35 @@ def main():
         print()
         grammar.generare()
 
-    print()   
+    print()
+    '''
+    
+    # Automat Finit Determinist
+    AFD = FiniteAutomaton(['q0', 'q1'], ['a', 'b'], 'q0', ['q1'], [['q0', 'a', 'q0'], 
+                                                                       ['q0', 'b', 'q1'], 
+                                                                       ['q1', 'a', 'q1'], 
+                                                                       ['q1', 'b', 'q0']])
+    if(AFD.verifyAutomaton()):
+        print("Automatul:")
+        AFD.printAutomaton()
+        print("este corect")
+    else:
+        print("Automatul nu este corect")
+    print()
+    # Automat Finit Nedeterminist
+    AFN = FiniteAutomaton(['q0', 'q1', 'q2', 'q3'], ['a', 'b'], 'q2', ['q1'], [['q0', 'a', 'q0'], 
+                                                                               ['q0', 'b', 'q0', 'q1'],
+                                                                               ['q1', 'a'], 
+                                                                               ['q1', 'b', 'q3'],
+                                                                               ['q2', 'a', 'q2'],
+                                                                               ['q2', 'b', 'q3'],
+                                                                               ['q3', 'a', 'q2'],
+                                                                               ['q3', 'b', 'q1', 'q2']])
+    if(AFN.verifyAutomaton()):
+        print("Automatul:")
+        AFN.printAutomaton()
+        print("este corect")
+    else:
+        print("Automatul nu este corect")
 
 main()
