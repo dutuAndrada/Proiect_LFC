@@ -146,14 +146,18 @@ class FiniteAutomaton:
         self.F: list = F
         self.delta: list = delta
 
-    def citire(self):
+  #  def citire(self):
 
 
 def main():
     grammar = Grammar([], [], [])
     grammar.citire_fisier('gram.txt')
     print(grammar.verificare())
-    grammar.generare()
-    grammar.afisare()
+    numar_cuvinte:int = int(input("Introduceti numarul de cuvinte dorite: "))
+    for i in range(numar_cuvinte):
+        print()
+        grammar.generare()
+
+    print()   
 
 main()
