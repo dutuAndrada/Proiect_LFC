@@ -198,7 +198,7 @@ def main():
         print("Automatul nu este corect")
     print()
     # Automat Finit Nedeterminist
-    AFN = FiniteAutomaton(['q0', 'q1', 'q2', 'q3'], ['a', 'b'], 'q2', ['q1'], [['q0', 'a', 'q0'], 
+    AFN = FiniteAutomaton(['q0', 'q1', 'q2', 'q3'], ['a', 'b'], 'q0', ['q2'], [['q0', 'a', 'q0'], 
                                                                                ['q0', 'b', 'q0', 'q1'],
                                                                                ['q1', 'a'], 
                                                                                ['q1', 'b', 'q3'],
