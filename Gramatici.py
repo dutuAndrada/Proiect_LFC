@@ -146,11 +146,12 @@ class FiniteAutomaton:
         self.F: list = F
         self.delta: list = delta
 
+    def citire(self):
 
 
 def main():
     grammar = Grammar([], [], [])
-    grammar.citire_fisier('C:\\Users\\User\\Documents\\scoala\\LFC\\gram\\gramatic\\gramatic\\gram.txt')
+    grammar.citire_fisier('gram.txt')
     print(grammar.verificare())
     grammar.generare()
     grammar.afisare()
