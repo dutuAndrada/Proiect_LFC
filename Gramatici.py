@@ -8,7 +8,7 @@ class Grammar:
         self.S: str = 'S'
         self.generated_words: set = set()
 
-    def citire(self):
+    def ReadGrammar(self):
         self.Vn: list = []
         self.Vt: list = []
         self.P: list = []
@@ -26,7 +26,7 @@ class Grammar:
 
         self.generated_words: set = set()
 
-    def citire_fisier(self, file_name: str):
+    def ReadGrammarFile(self, file_name: str):
         self.Vn: list = []
         self.Vt: list = []
         self.P: list = []
@@ -44,7 +44,7 @@ class Grammar:
             key, value = file_input.split("->")
             self.P.append((key, value))
 
-    def verificare(self):
+    def VerifyGrammar(self):
         i: str
         for neterminal in self.Vn:
             #neterminal sa fie litera mare
@@ -89,7 +89,7 @@ class Grammar:
 
         return True
 
-    def is_regular(self):
+    def IsRegular(self):
         for productie in self.P:
             if len(productie[0]) != 1 or productie[0].isupper() == False:
                 return False
@@ -106,7 +106,7 @@ class Grammar:
         return True
 
 
-    def generare(self):
+    def GenerateWord(self):
         cuvant: str = self.S
         print(f"{cuvant} -> ", end='')
         ok: bool = True
@@ -132,7 +132,9 @@ class Grammar:
                 self.generated_words.add(cuvant)
         print()
 
-    def afisare(self):
+    
+
+    def PrintGrammar(self):
         print("Neterminale: ", self.Vn)
         print("Terminale: ", self.Vt)
         print("Productii: ", self.P)
@@ -146,7 +148,7 @@ class FiniteAutomaton:
         self.F: list[str] = F
         self.delta: list[tuple[str]] = delta
 
-    def citire(self):
+    def ReadAutomaton(self):
         self.Q: list[str] = []
         self.E: list[str] = []
         self.F: list[str] = []
@@ -168,7 +170,7 @@ class FiniteAutomaton:
             litera, stare2 = aux.split("->")
             self.delta.append((stare1, litera, stare2))
 
-    def citire_fisier(self, file_name: str):
+    def ReadAutomatonFile(self, file_name: str):
         self.Q: list[str] = []
         self.E: list[str] = []
         self.F: list[str] = []
