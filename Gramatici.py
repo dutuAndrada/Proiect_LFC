@@ -1,4 +1,4 @@
-import random
+﻿import random
 
 class Grammar:
     def __init__(self, Vn: list, Vt: list, P: list):
@@ -164,6 +164,19 @@ class FiniteAutomaton:
                     if transition[finalState] not in self.Q:
                         return False
         return True
+    def checkWord(self, word):
+        """Verifică dacă un cuvânt este acceptat de automat."""
+        currentState = self.q0
+        for letter in word:
+            foundTransition = False
+            for transition in self.delta:
+                if transition[0] == currentState and transition[1] == letter:
+                    currentState = transition[2]
+                    foundTransition = True
+                    break
+            if not foundTransition:
+                return False  # nu există tranziție pentru litera curentă
+        return currentState in self.F
     
     def printAutomaton(self):
         print(self.Q)
@@ -185,6 +198,7 @@ def main():
     print()
     '''
     
+    
     # Automat Finit Determinist
     AFD = FiniteAutomaton(['q0', 'q1'], ['a', 'b'], 'q0', ['q1'], [['q0', 'a', 'q0'], 
                                                                        ['q0', 'b', 'q1'], 
@@ -197,6 +211,13 @@ def main():
     else:
         print("Automatul nu este corect")
     print()
+    test=AFD.checkWord("abab")
+    if test:
+        print("Cuvantul este acceptat")
+    else:
+       print("Cuvantul nu este acceptat")
+    print()
+    
     # Automat Finit Nedeterminist
     AFN = FiniteAutomaton(['q0', 'q1', 'q2', 'q3'], ['a', 'b'], 'q0', ['q2'], [['q0', 'a', 'q0'], 
                                                                                ['q0', 'b', 'q0', 'q1'],
@@ -212,5 +233,13 @@ def main():
         print("este corect")
     else:
         print("Automatul nu este corect")
+    test=AFD.checkWord("abab")
+    if test:
+        print("Cuvantul este acceptat")
+    else:
+       print("Cuvantul nu este acceptat")
+    print()   
+        
+  
 
 main()
