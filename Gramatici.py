@@ -223,6 +223,16 @@ class FiniteAutomaton:
                 return False  # nu există tranziție pentru litera curentă
         return currentState in self.F
     
+    def IsDeterministic(self):
+        existingTransitions: list = []
+        for transition in self.delta:
+            aux: tuple = (transition[0],transition[1])
+            if aux in existingTransitions:
+                return False
+            existingTransitions.append(aux)
+        return True
+
+    
     def printAutomaton(self):
         print(self.Q)
         print(self.E)
