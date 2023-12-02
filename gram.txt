@@ -1,8 +1,7 @@
-S A B
-a b c
-5
-S->ASb
-S->aSb
-S->a
+S A
+a b
+4
+S->aA
+S->b
 A->aA
-A->lambda
+A->b

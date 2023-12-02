@@ -132,7 +132,25 @@ class Grammar:
                 self.generated_words.add(cuvant)
         print()
 
-    
+    def TransformAutomata(self):
+        automata: FiniteAutomaton = FiniteAutomaton([], [], '', [], [])
+        if self.IsRegular() == False:
+            print("Gramatica nu este corecta")
+            return automata
+        else:
+            automata.Q = self.Vn
+            automata.E = self.Vt
+            automata.q0 = self.S
+            for productie in self.P:
+                if len(productie[1]) == 2:
+                    automata.delta.append((productie[0], productie[1][0], productie[1][1]))
+                else:
+                    stare_finala:str = chr(ord(automata.Q[len(automata.Q) - 1]) + 1)
+                    automata.delta.append((productie[0], productie[1], stare_finala))
+                    automata.Q.append(stare_finala)
+                    automata.F.append(stare_finala)
+            return automata
+
 
     def PrintGrammar(self):
         print("Neterminale: ", self.Vn)
@@ -243,19 +261,14 @@ class FiniteAutomaton:
         print(self.delta)
 
 def main():
-    '''
+    # Gramatica
     grammar = Grammar([], [], [])
-    grammar.citire_fisier('gram.txt')
-    print(grammar.verificare())
-    numar_cuvinte:int = int(input("Introduceti numarul de cuvinte dorite: "))
-    for i in range(numar_cuvinte):
-        print()
-        grammar.generare()
-
+    grammar.ReadGrammarFile('gram.txt')
+    grammar.TransformAutomata().printAutomaton()
     print()
+    
+    
     '''
-    
-    
     # Automat Finit Determinist
     AFD = FiniteAutomaton(['q0', 'q1'], ['a', 'b'], 'q0', ['q1'], [['q0', 'a', 'q0'], 
                                                                        ['q0', 'b', 'q1'], 
@@ -268,9 +281,6 @@ def main():
     else:
         print("Automatul nu este corect")
     print()
-    AFD2: FiniteAutomaton = FiniteAutomaton([], [], '', [], [])
-    AFD2.citire_fisier("automat.txt")
-    AFD2.printAutomaton()
 
     test=AFD.checkWord("abab")
     if test:
@@ -300,6 +310,6 @@ def main():
     else:
        print("Cuvantul nu este acceptat")
     print()   
-        
+        '''
   
 main()
