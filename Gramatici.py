@@ -146,7 +146,52 @@ class FiniteAutomaton:
         self.F: list[str] = F
         self.delta: list[tuple[str]] = delta
 
-  #  def citire(self):
+    def citire(self):
+        self.Q: list[str] = []
+        self.E: list[str] = []
+        self.F: list[str] = []
+        self.delta: list[tuple[str]] = []
+        numar_stari = int(input("Numarul de stari: "))
+        for i in range(numar_stari):
+            self.Q.append(input("Stare: "))
+        numar_litere = int(input("Numarul de litere: "))
+        for i in range(numar_litere):
+            self.E.append(input("Litera: "))
+        self.q0 = input("Starea initiala: ")
+        numar_stari_finale = int(input("Numarul de stari finale: "))
+        for i in range(numar_stari_finale):
+            self.F.append(input("Stare finala: "))
+        numar_tranzitii = int(input("Numarul de tranzitii: "))
+        for i in range(numar_tranzitii):
+            user_input = input("Introduceti tranzitia: ")
+            stare1, aux = user_input.split(",")
+            litera, stare2 = aux.split("->")
+            self.delta.append((stare1, litera, stare2))
+
+    def citire_fisier(self, file_name: str):
+        self.Q: list[str] = []
+        self.E: list[str] = []
+        self.F: list[str] = []
+        self.delta: list[tuple[str]] = []
+        f = open(file_name, "r")
+        Q_string: str = f.readline()
+        Q_string = Q_string.replace("\n", "")
+        self.Q = Q_string.split(" ")
+        E_string: str = f.readline()
+        E_string = E_string.replace("\n", "")
+        self.E = E_string.split(" ")
+        self.q0 = f.readline()
+        self.q0 = self.q0.replace("\n", "")
+        F_string: str = f.readline()
+        F_string = F_string.replace("\n", "")
+        self.F = F_string.split(" ")
+        numar_tranzitii = int(f.readline())
+        for i in range(numar_tranzitii):
+            file_input = f.readline()
+            file_input = file_input.replace("\n", "")
+            stare1, aux = file_input.split(",")
+            litera, stare2 = aux.split("->")
+            self.delta.append((stare1, litera, stare2))
 
     def verifyAutomaton(self):
         if self.q0 not in self.Q:
@@ -211,6 +256,10 @@ def main():
     else:
         print("Automatul nu este corect")
     print()
+    AFD2: FiniteAutomaton = FiniteAutomaton([], [], '', [], [])
+    AFD2.citire_fisier("automat.txt")
+    AFD2.printAutomaton()
+
     test=AFD.checkWord("abab")
     if test:
         print("Cuvantul este acceptat")
@@ -241,5 +290,4 @@ def main():
     print()   
         
   
-
 main()
