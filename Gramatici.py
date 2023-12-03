@@ -1,4 +1,5 @@
 ﻿import random
+from stat import FILE_ATTRIBUTE_NOT_CONTENT_INDEXED
 
 class Grammar:
     def __init__(self, Vn: list, Vt: list, P: list):
@@ -264,52 +265,71 @@ def main():
     # Gramatica
     grammar = Grammar([], [], [])
     grammar.ReadGrammarFile('gram.txt')
-    grammar.TransformAutomata().printAutomaton()
-    print()
-    
-    
-    '''
-    # Automat Finit Determinist
-    AFD = FiniteAutomaton(['q0', 'q1'], ['a', 'b'], 'q0', ['q1'], [['q0', 'a', 'q0'], 
-                                                                       ['q0', 'b', 'q1'], 
-                                                                       ['q1', 'a', 'q1'], 
-                                                                       ['q1', 'b', 'q0']])
-    if(AFD.verifyAutomaton()):
-        print("Automatul:")
-        AFD.printAutomaton()
-        print("este corect")
-    else:
-        print("Automatul nu este corect")
-    print()
 
-    test=AFD.checkWord("abab")
-    if test:
-        print("Cuvantul este acceptat")
-    else:
-       print("Cuvantul nu este acceptat")
-    print()
+    if not grammar.VerifyGrammar() or not grammar.IsRegular():
+        print("Gramatica nu este corecta sau nu este regulata.")
+        return
+
+    print("Gramatica este corecta si regulata.")
+
+    while True:
+        print("\nMeniu:")
+        print("a. Afișarea gramaticii G")
+        print("b. Generare a n cuvinte în gramatica G")
+        print("c. Obținere automat echivalent cu G")
+        print("d. Verificare dacă un cuvânt este acceptat de automat")
+        print("e. Generare și verificare cuvânt în G")
+        print("x. Ieșire")
+
+        optiune = input("Alegeți o opțiune: ")
+
+        if optiune == 'a':
+            grammar.PrintGrammar()
+
+        elif optiune == 'b':
+            numar_cuvinte = int(input("Introduceți numărul de cuvinte: "))
+            for i in range(numar_cuvinte):
+                grammar.GenerateWord()
+
+        elif optiune == 'c':
+            automaton = grammar.TransformAutomata()
+            automaton.printAutomaton()
+
+        elif optiune == 'd':
+            word = input("Introduceți cuvântul de verificat: ")
+            automaton = grammar.TransformAutomata()
+            if automaton.verifyAutomaton():
+                if automaton.IsDeterministic():
+                    if automaton.checkWord(word):
+                        print(f"Cuvântul '{word}' este acceptat de automat.")
+                    else:
+                        print(f"Cuvântul '{word}' nu este acceptat de automat.")
+                else:
+                    print("Automatul nu este determinist.")
+            else:
+                print("Automatul nu este valid.")
+
+        elif optiune == 'e':
+            generated_word = grammar.GenerateWord()
+            word = input("Introduceți cuvântul de verificat: ")
+            automaton = grammar.TransformAutomata()
+            if automaton.verifyAutomaton():
+                if automaton.IsDeterministic():
+                    if automaton.checkWord(word):
+                        print(f"Cuvântul '{word}' este acceptat de automat.")
+                    else:
+                        print(f"Cuvântul '{word}' nu este acceptat de automat.")
+                else:
+                    print("Automatul nu este determinist.")
+            else:
+                print("Automatul nu este valid.")
+
+        elif optiune == 'x':
+            break
+
+        else:
+            print("Opțiune invalidă. Reîncercați.")
+
     
-    # Automat Finit Nedeterminist
-    AFN = FiniteAutomaton(['q0', 'q1', 'q2', 'q3'], ['a', 'b'], 'q0', ['q2'], [['q0', 'a', 'q0'], 
-                                                                               ['q0', 'b', 'q0', 'q1'],
-                                                                               ['q1', 'a'], 
-                                                                               ['q1', 'b', 'q3'],
-                                                                               ['q2', 'a', 'q2'],
-                                                                               ['q2', 'b', 'q3'],
-                                                                               ['q3', 'a', 'q2'],
-                                                                               ['q3', 'b', 'q1', 'q2']])
-    if(AFN.verifyAutomaton()):
-        print("Automatul:")
-        AFN.printAutomaton()
-        print("este corect")
-    else:
-        print("Automatul nu este corect")
-    test=AFD.checkWord("abab")
-    if test:
-        print("Cuvantul este acceptat")
-    else:
-       print("Cuvantul nu este acceptat")
-    print()   
-        '''
   
 main()
