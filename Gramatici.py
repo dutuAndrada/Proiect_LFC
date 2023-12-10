@@ -48,32 +48,26 @@ class Grammar:
     def VerifyGrammar(self):
         i: str
         for neterminal in self.Vn:
-            #neterminal sa fie litera mare
             if neterminal.islower() == True:
                 return False
-            #neterminal sa nu fie si terminal
             if neterminal in self.Vt:
                 return False
 
         for terminal in self.Vt:
-            #terminal sa nu fie si neterminal
             if terminal in self.Vn:
                 return False
 
-        #simbolul de start sa fie neterminal
         if self.S not in self.Vn:
             return False
 
         ok = False
         for productie in self.P:
             ok2 = True
-            #partea stanga a productiei sa aiba macar un neterminal
             for neterminal in self.Vn:
                 if neterminal in productie[0]:
                     ok2 = True
             if ok2 == False:
                 return False
-            #partea stanga a productiei sa fie neterminalul de start
             if self.S == productie[0]:
                 ok = True
         if ok == False:
@@ -81,7 +75,6 @@ class Grammar:
 
         for productie in self.P:
             for litera in productie[0]:
-                #fiecare litera din productie sa se afle in Vn sau Vt
                 if litera not in self.Vn and litera not in self.Vt:
                     return False
             for litera in productie[1]:
@@ -231,7 +224,6 @@ class FiniteAutomaton:
                         return False
         return True
     def checkWord(self, word):
-        """Verifică dacă un cuvânt este acceptat de automat."""
         currentState = self.q0
         for letter in word:
             foundTransition = False
@@ -241,7 +233,7 @@ class FiniteAutomaton:
                     foundTransition = True
                     break
             if not foundTransition:
-                return False  # nu există tranziție pentru litera curentă
+                return False  
         return currentState in self.F
     
     def IsDeterministic(self):
@@ -262,7 +254,6 @@ class FiniteAutomaton:
         print(self.delta)
 
 def main():
-    # Gramatica
     grammar = Grammar([], [], [])
     grammar.ReadGrammarFile('gram.txt')
 
